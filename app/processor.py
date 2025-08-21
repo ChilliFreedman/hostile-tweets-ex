@@ -7,7 +7,7 @@ from collections import Counter
 class Processor:
     def __init__(self,df:DataFrame):
         self.df = df
-        self.new_df = df.copy()
+        self.new_df = df.copy().drop(columns='TweetID')
 
 
     def add_new_column_rarest_word(self):
@@ -22,7 +22,7 @@ class Processor:
         #print(f"{len(list_rarest_word)}")
         self.new_df["rarest_word"] = list_rarest_word
         #print(self.new_df)
-        return  self.new_df
+        #return  self.new_df
 
     def add_new_column_emotion(self):
         nltk.download('vader_lexicon')  # Compute sentiment labels
@@ -41,7 +41,7 @@ class Processor:
             emotion_list.append(emot)
         #print(len(emotion_list))
         self.new_df["emotion"] = emotion_list
-        print(self.new_df)
+        #print(self.new_df)
         #return self.new_df
 
     def add_new_column_weapons_detected(self):
@@ -64,6 +64,9 @@ class Processor:
         #print(len(weapon_list))
         self.new_df["weapons_detected"] = weapon_list
         #print(self.new_df)
+        #return self.new_df
+
+    def get_new_df(self):
         return self.new_df
 
 
@@ -87,8 +90,9 @@ if __name__ == "__main__":
     dal = DAL(connector)
     df = dal.get_mongoDB_as_df()
     processor = Processor(df)
-    # processor.add_new_column_rarest_word()
-    # processor.add_new_column_emotion()
+    processor.add_new_column_rarest_word()
+    processor.add_new_column_emotion()
     processor.add_new_column_weapons_detected()
+    print(processor.get_new_df())
 
 
