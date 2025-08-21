@@ -1,6 +1,6 @@
 from pymongo import MongoClient
 class Connector:
-    def __init__(self,user = "IRGC",passw = "iraniraniran",dbname = "IranMalDB", connection_string="mongodb+srv://IRGC:iraniraniran@iranmaldb.gurutam.mongodb.net/"):
+    def __init__(self,connection_string,user = "IRGC",passw = "iraniraniran",dbname = "IranMalDB"):
         self.user = user
         self.passw = passw
         self.dbname = dbname
@@ -33,7 +33,7 @@ class DAL:
 
 
 if __name__ == "__main__":
-    connector = Connector()
+    connector = Connector("mongodb+srv://IRGC:iraniraniran@iranmaldb.gurutam.mongodb.net/")
     dal = DAL(connector)
-    dal.get_all_data()
+    #dal.get_all_data()
     #print(dal.get_mongoDB_as_df())
