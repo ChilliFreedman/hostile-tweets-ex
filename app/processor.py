@@ -44,6 +44,35 @@ class Processor:
         print(self.new_df)
         #return self.new_df
 
+    def add_new_column_weapons_detected(self):
+
+        col_text = self.new_df["Text"]
+        weapon_list = []
+        for field_text in col_text:
+            #print(field_text)
+            flag = False
+            for word in field_text.split(" "):
+                #print(word)
+                with open('../data/weapon_list.txt', 'r') as file:
+                    weapons = file.read().splitlines()
+                    if word in weapons:
+                        weapon_list.append(word)
+                        flag = True
+                        break
+            if not flag:
+                weapon_list.append("")
+        #print(len(weapon_list))
+        self.new_df["weapons_detected"] = weapon_list
+        #print(self.new_df)
+        return self.new_df
+
+
+
+
+
+
+
+
 
 
 
@@ -58,7 +87,8 @@ if __name__ == "__main__":
     dal = DAL(connector)
     df = dal.get_mongoDB_as_df()
     processor = Processor(df)
-    processor.add_new_column_rarest_word()
-    processor.add_new_column_emotion()
+    # processor.add_new_column_rarest_word()
+    # processor.add_new_column_emotion()
+    processor.add_new_column_weapons_detected()
 
 
